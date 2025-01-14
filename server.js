@@ -29,11 +29,14 @@ app.post('/api/message', async (req, res) => {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    const completion = await client.chat.completions.create({
-      messages: [{ role: "user", content: message }],
-      model: "gpt-3.5-turbo",
-    });
-
+    const response = await client.chat.completions.create({
+        messages: message,
+        model: "gpt-4o",
+        temperature: 1,
+        max_tokens: 4096,
+        top_p: 1
+      });
+    
     res.json({ response: completion.choices[0].message.content });
   } catch (error) {
     console.error('Error:', error);
