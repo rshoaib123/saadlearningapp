@@ -30,7 +30,7 @@ app.post('/api/message', async (req, res) => {
     }
 
     const response = await client.chat.completions.create({
-        messages: [message],
+        messages: [{ role: "user", content: message }],        
         model: "gpt-4o",
         temperature: 1,
         max_tokens: 4096,
