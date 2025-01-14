@@ -9,13 +9,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
 const client = new OpenAI({
   baseURL: "https://models.inference.ai.azure.com",
-  apiKey: token
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 // Test endpoint
