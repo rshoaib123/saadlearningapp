@@ -37,7 +37,7 @@ app.post('/api/message', async (req, res) => {
         top_p: 1
       });
     
-    res.json({ response: completion.choices[0].message.content });
+    res.json({ response: response.choices[0].message.content });
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Failed to process message' });
