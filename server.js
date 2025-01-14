@@ -53,12 +53,6 @@ app.post('/api/message', async (req, res) => {
       - Comments on the formality and language appropriateness of the student’s answer.
     `;
 
-    
-
-    if (!message) {
-      return res.status(400).json({ error: 'Message is required' });
-    }
-
     const response = await client.chat.completions.create({
          messages: [
           { role: "system", content: "You are an assistant that helps evaluate and compare student answers to a given correct answer. You assess the coverage of key points, language formality, and overall similarity." },
