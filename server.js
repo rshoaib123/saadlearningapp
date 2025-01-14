@@ -23,14 +23,47 @@ app.get('/api/status', (req, res) => {
 // Handle messages with OpenAI API
 app.post('/api/message', async (req, res) => {
   try {
-    const { message } = req.body;
+    const { correctAnswer, studentAnswer } = req.body;
+
+    if (!correctAnswer || !studentAnswer) {
+      return res.status(400).json({ error: 'Both correctAnswer and studentAnswer are required' });
+    }
+
+    // Construct a prompt for the ChatGPT API
+    const prompt = `
+      I have the following correct answer for a question:
+
+      Correct Answer: 
+      ${correctAnswer}
+
+      The student has provided the following answer:
+
+      Student Answer:
+      ${studentAnswer}
+
+      Please analyze the following:
+      1. Does the student answer cover all the main points of the correct answer?
+      2. Does the student’s answer capture the essence of all the key points from the correct answer?
+      3. How close is the language of the student's answer to the language of the correct answer?
+      4. Is the language too casual or inappropriate for an academic setting? Please provide feedback on any informal language.
+
+      Provide your analysis in a structured format with:
+      - A percentage match (how similar the student's answer is to the correct answer).
+      - Any missing points in the student’s answer.
+      - Comments on the formality and language appropriateness of the student’s answer.
+    `;
+
+    
 
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
     const response = await client.chat.completions.create({
-        messages: [{ role: "user", content: message }],        
+         messages: [
+          { role: "system", content: "You are an assistant that helps evaluate and compare student answers to a given correct answer. You assess the coverage of key points, language formality, and overall similarity." },
+          { role: "user", content: prompt },
+        ],
         model: "gpt-4o",
         temperature: 1,
         max_tokens: 4096,
