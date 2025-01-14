@@ -13,6 +13,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
+const client = new OpenAI({
+  baseURL: "https://models.inference.ai.azure.com",
+  apiKey: token
+});
+
 // Test endpoint
 app.get('/api/status', (req, res) => {
   res.json({ message: 'API is running' });
