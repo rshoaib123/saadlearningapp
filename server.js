@@ -47,10 +47,10 @@ app.post('/api/message', async (req, res) => {
       3. How close is the language of the student's answer to the language of the correct answer?
       4. Is the language too casual or inappropriate for an academic setting? Please provide feedback on any informal language.
 
-      Provide your analysis in a structured format with:
-      - A percentage match (how similar the student's answer is to the correct answer).
-      - Any missing points in the student’s answer.
-      - Comments on the formality and language appropriateness of the student’s answer.
+      Provide your analysis in a structured JSON format with:
+      - match_percentage : A percentage match (how similar the student's answer is to the correct answer).
+      - analysis_text : Any missing points in the student’s answer.
+      - language_comments: Comments on the formality and language appropriateness of the student’s answer.
     `;
 
     const response = await client.chat.completions.create({
